@@ -41,53 +41,49 @@ let gameRef = null;
 loginButtons.forEach(button => {
     button.addEventListener('click', async () => {
         const inputId = button.dataset.player;
-        handleLogin(inputId);
-    });
-});
 
-async function handleLogin(inputId) {
-    playerId = `player${inputId}`;
-    enemyId = (playerId === 'player1') ? 'player2' : 'player1';
+        playerId = `player${inputId}`;
+        enemyId = (playerId === 'player1') ? 'player2' : 'player1';
 
-    gameRef = ref(database, 'game');
+        gameRef = ref(database, 'game');
 
-    // Check if player already exists
-    const snapshot = await get(ref(database, `game/${playerId}`));
-    if (snapshot.exists() && snapshot.val().online) {
-        alert('이미 접속중인 플레이어입니다.');
-        return;
-    }
-
-    playerDisplay.textContent = inputId;
-    loginScreen.classList.add('hidden');
-    gameScreen.classList.remove('hidden');
-
-    // Set player data in Firebase
-    set(ref(database, `game/${playerId}`), {
-        online: true,
-        choice: null,
-        score: 0
-    });
-    set(ref(database, `game/state`), {
-        round: 1,
-        winner: null,
-        message: "게임 시작"
-    });
-
-    // Listen for game state changes
-    onValue(gameRef, (snapshot) => {
-        const gameData = snapshot.val();
-        // If game data is null (e.g., reset by other player), reload the page
-        if (!gameData) {
-            alert("게임이 초기화되었습니다. 로그인 화면으로 돌아갑니다.");
-            window.location.reload();
+        // Check if player already exists
+        const snapshot = await get(ref(database, `game/${playerId}`));
+        if (snapshot.exists() && snapshot.val().online) {
+            alert('이미 접속중인 플레이어입니다.');
             return;
         }
 
-        updateUI(gameData);
-        checkForWinner(gameData);
+        playerDisplay.textContent = inputId;
+        loginScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+
+        // Set player data in Firebase
+        set(ref(database, `game/${playerId}`), {
+            online: true,
+            choice: null,
+            score: 0
+        });
+        set(ref(database, `game/state`), {
+            round: 1,
+            winner: null,
+            message: "게임 시작"
+        });
+
+        // Listen for game state changes
+        onValue(gameRef, (snapshot) => {
+            const gameData = snapshot.val();
+            if (!gameData) {
+                alert("게임이 초기화되었습니다. 로그인 화면으로 돌아갑니다.");
+                window.location.reload();
+                return;
+            }
+
+            updateUI(gameData);
+            checkForWinner(gameData);
+        });
     });
-}
+});
 
 
 // --- UI Update ---
