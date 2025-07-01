@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>온라인 가위바위보</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js" type="module"></script>
+</head>
+<body>
+    <div id="game-container">
+        <h1>온라인 가위바위보</h1>
+        <div id="login-screen">
+            <h2>플레이어 코드를 입력하세요 (1 또는 2)</h2>
+            <input type="text" id="player-id-input" placeholder="예: 1">
+            <button id="login-button">접속</button>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <p>당신은 <span id="player-display"></span>번 플레이어입니다.</p>
+            <p id="waiting-message">상대방을 기다리는 중...</p>
+            <hr>
+            <h2>점수</h2>
+            <p>나: <span id="my-score">0</span> vs 상대: <span id="enemy-score">0</span></p>
+            <hr>
+            <div id="selection-area">
+                <h2>가위, 바위, 보를 선택하세요!</h2>
+                <button class="choice-btn" data-choice="rock">✊</button>
+                <button class="choice-btn" data-choice="scissors">✌️</button>
+                <button class="choice-btn" data-choice="paper">🖐️</button>
+            </div>
+            <div id="result-display"></div>
+            <button id="reset-button" class="hidden">게임 초기화</button>
+        </div>
+    </div>
+
+    <script src="app.js" type="module"></script>
+</body>
+</html>
