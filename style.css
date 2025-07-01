@@ -29,6 +29,12 @@ button {
     cursor: pointer;
 }
 
+.login-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+}
+
 .choice-btn {
     font-size: 2rem;
     margin: 0 1rem;

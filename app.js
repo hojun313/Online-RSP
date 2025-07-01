@@ -21,8 +21,7 @@ const database = getDatabase(app);
 // DOM Elements
 const loginScreen = document.getElementById('login-screen');
 const gameScreen = document.getElementById('game-screen');
-const playerIdInput = document.getElementById('player-id-input');
-const loginButton = document.getElementById('login-button');
+const loginButtons = document.querySelectorAll('.login-btn');
 const playerDisplay = document.getElementById('player-display');
 const waitingMessage = document.getElementById('waiting-message');
 const myScoreDisplay = document.getElementById('my-score');
@@ -39,13 +38,14 @@ let enemyId = null;
 let gameRef = null;
 
 // --- Login ---
-loginButton.addEventListener('click', async () => {
-    const inputId = playerIdInput.value;
-    if (inputId !== '1' && inputId !== '2') {
-        alert('플레이어 코드는 1 또는 2만 가능합니다.');
-        return;
-    }
+loginButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+        const inputId = button.dataset.player;
+        handleLogin(inputId);
+    });
+});
 
+async function handleLogin(inputId) {
     playerId = `player${inputId}`;
     enemyId = (playerId === 'player1') ? 'player2' : 'player1';
 
@@ -68,12 +68,11 @@ loginButton.addEventListener('click', async () => {
         choice: null,
         score: 0
     });
-     set(ref(database, `game/state`), {
+    set(ref(database, `game/state`), {
         round: 1,
         winner: null,
         message: "게임 시작"
     });
-
 
     // Listen for game state changes
     onValue(gameRef, (snapshot) => {
@@ -88,7 +87,7 @@ loginButton.addEventListener('click', async () => {
         updateUI(gameData);
         checkForWinner(gameData);
     });
-});
+}
 
 
 // --- UI Update ---
