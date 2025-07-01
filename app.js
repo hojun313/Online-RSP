@@ -78,7 +78,12 @@ loginButton.addEventListener('click', async () => {
     // Listen for game state changes
     onValue(gameRef, (snapshot) => {
         const gameData = snapshot.val();
-        if (!gameData) return;
+        // If game data is null (e.g., reset by other player), reload the page
+        if (!gameData) {
+            alert("게임이 초기화되었습니다. 로그인 화면으로 돌아갑니다.");
+            window.location.reload();
+            return;
+        }
 
         updateUI(gameData);
         checkForWinner(gameData);
