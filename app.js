@@ -5,7 +5,7 @@ import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/fir
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyATrFY5Ui56HErMXFBT9qa_XSW2_mSyJiw",
+    apiKey: "",
     authDomain: "online-rsp-game.firebaseapp.com",
     databaseURL: "https://online-rsp-game-default-rtdb.firebaseio.com", // 중요: databaseURL을 직접 추가해야 합니다.
     projectId: "online-rsp-game",
